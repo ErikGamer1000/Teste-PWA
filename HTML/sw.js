@@ -4,7 +4,6 @@ const urlsToCache = [
   './localstorageJson.html',
   './image/raio.png',
   './image/pwa.png',
-  './',
   './manifest.json'
 ];
 
