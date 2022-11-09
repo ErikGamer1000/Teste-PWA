@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="manifest" href="./manifest.json" />
+<link rel="shortcut icon" href="./icon/favicon-16x16-dunplab-manifest-9314.png" type="image/png">
+<link rel="icon" href="./icon/favicon-16x16-dunplab-manifest-9314.png" type="image/png">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js')
+            .then(function () { console.log('service worker registered'); })
+            .catch(function () { console.log('service worker failed'); });
+    }
+</script>
+
+<title>Localstorage</title>
+
+</head>
+<body>
+
+<div class="container">
+<h1>Localstorage</h1>
+<hr>
+<div class="row">
+<div class="col-md-12">
+
+<button type="button" class="btn btn-primary" id="armazenar" value="armazenar">Armazenar</button> 
+<button type="button" class="btn btn-primary" id="recuperar" value="recuperar">Recuperar</button> 
+<button type="button" class="btn btn-primary" id="remover" value="remover">Remover</button><br><br>
+
+<form>
+<label for="Nome">Nome:</label>
+<input type="text" id="Nome"><br>
+<label for="Idade">Idade:</label>
+<input type="number" id="Idade"><br>
+<label for="CPF">CPF:</label>
+<input type="text" id="CPF"><br>
+</form>
+<div id="result"></div>
+
+<script>
+let nome = document.querySelector("#Nome")
+let idade = document.querySelector("#Idade")
+let cpf = document.querySelector("#CPF")
+let contadorA = 1;
+let contadorR = 1;
+let contadorRM = 1;
+let resposta = "";
+result=document.querySelector("#result")
+
+document.querySelector('#armazenar').addEventListener('click', armazenar);
+document.querySelector('#recuperar').addEventListener('click', recuperar);
+document.querySelector('#remover').addEventListener('click', remover);
+
+function armazenar(){
+let listaJson={"Nome":nome.value, "Idade":idade.value, "CPF":cpf.value};
+localStorage.setItem("lista"+contadorA,JSON.stringify(listaJson));
+result.innerHTML='Armazenado com sucesso';
+contadorA++;
+localStorage.setItem("CA", contadorA);
+}
+
+function recuperar() { 
+while(contadorR<localStorage.getItem("CA")){
+lista=localStorage.getItem("lista"+contadorR);
+listaJson=JSON.parse(lista);
+resposta += "Nome: " + listaJson.Nome + "<br>Idade: " + listaJson.Idade + "<br>CPF: " + listaJson.CPF +"<br>";
+contadorR++;
+}
+result.innerHTML = resposta;
+localStorage.setItem("CA", 1);
+localStorage.setItem("CR", contadorR);
+}
+
+function remover() {
+while(contadorRM<localStorage.getItem("CR")){
+localStorage.removeItem('lista'+contadorRM);
+result.innerHTML = "Removido com sucesso";
+contadorRM++;
+contadorA=1;
+}
+localStorage.setItem("CA", 1);
+localStorage.setItem("CR", 1);
+contadorRM = 1;
+}                  
+
+</script>
+</div>
+</div>
+</div> 
+</body>
+</html>
