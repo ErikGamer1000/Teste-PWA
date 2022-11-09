@@ -2,8 +2,6 @@
 const CACHE_NAME = 'my-site-cache-v1';
 const urlsToCache = [
   './localstorageJson.html',
-  './image/raio.png',
-  './image/pwa.png',
   './manifest.json'
 ];
 
